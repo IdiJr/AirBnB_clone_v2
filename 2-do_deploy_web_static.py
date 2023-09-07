@@ -41,14 +41,12 @@ def do_deploy(archive_path):
     folder_path = "/data/web_static/releases/{}/".format(folder_name)
     if put(archive_path, "/tmp/{}".format(file_name)).failed:
         return False
-    if run("sudo rm -rf {}".format(folder_path)).failed:
-        return False
     if run("sudo mkdir -p {}".format(folder_path)).failed:
         return False
     if run("sudo tar -xzf /tmp/{} -C {}"
             .format(file_name, folder_path)).failed:
         return False
-    if run("sudo rm /tmp/{}".format(file_name)).failed:
+    if run("sudo rm -rf /tmp/{}".format(file_name)).failed:
         return False
     if run("sudo mv {}web_static/* {}"
             .format(folder_path, folder_path)).failed:
