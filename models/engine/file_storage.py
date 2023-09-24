@@ -65,5 +65,5 @@ class FileStorage:
                     self.all()[key] = classes[val['__class__']](**val)
 
     def close(self):
-        """Closes the storage engine."""
+        """Deserialises the JSON file to objects."""
         self.reload()
