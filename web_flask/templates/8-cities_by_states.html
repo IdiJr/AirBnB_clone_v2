@@ -7,14 +7,16 @@
     <h1>States</h1>
     <ul>
         {% for state in states %}
-            <li><b>{{ state.id }}</b>: {{ state.name }}
-                <ul>
-                    {% for city in state.cities %}
-                        <li><b>{{ city.id }}</b>: {{ city.name }}</li>
-                    {% endfor %}
-                </ul>
-            </li>
-        {% endfor %}
+            <li><b>{{ state.id }}</b>: <a href="/states/{{ state.id }}">{{ state.name }}</a></li>
+            <h3>Cities:</h3>
+            <ul>
+                {% for city in cities %}
+                    <li><b>{{ city.id }}</b>: <b>{{ city.name }}</b></li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <li>No states found.</li>
+        {% endif %}
     </ul>
 </body>
 </html>
