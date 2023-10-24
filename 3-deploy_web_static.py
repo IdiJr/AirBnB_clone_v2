@@ -71,5 +71,5 @@ def deploy():
         archive_path = do_pack()
         val = do_deploy(archive_path)
         return val
-    except:
+    except Exception:
         return False
