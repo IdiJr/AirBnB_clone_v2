@@ -8,7 +8,7 @@ from datetime import datetime
 import os
 
 env.user = 'ubuntu'
-env.hosts = ['54.87.171.60', '100.25.181.220']
+env.hosts = ['54.197.128.204', '54.221.183.68']
 
 
 def do_pack():
@@ -80,8 +80,14 @@ def do_clean(number=0):
     Args:
         number (Any): The number of archives to keep.
     """
-    number = int(number)
-    local("ls -d -1tr versions/* | tail -n +{} | \
-            xargs -d '\n' rm -f --".format(2 if number < 1 else number + 1))
-    run("ls -d -1tr /data/web_static/releases/* | tail -n +{} | \
-            xargs -d '\n' rm -rf --".format(2 if number < 1 else number + 1))
+    number = 1 if int(number) == 0 else int(number)
+    files = sorted(os.listdir("versions"))
+    [files.pop() for i in range(number)]
+    with lcd("versions"):
+        [local("rm ./{}".format(j) for j in files)]
+
+    with cd("data/web_static/releases"):
+        files = run("ls -tr").split()
+        files = [j for j in files if "web_static_" in j]
+        [files.pop() for i in range(number)]
+        [run("sudo rm -rf ./{}".format(j)) for j in files]
